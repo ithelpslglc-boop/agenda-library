@@ -16,7 +16,6 @@ for (const anchor of document.querySelectorAll(".resource-grid a")) {
     anchor.replaceChildren(label);
   }
 }const searchInput = document.querySelector("#folder-search");
-const clearButton = document.querySelector("#clear-search");
 const status = document.querySelector("#search-status");
 const cards = [...document.querySelectorAll(".resource-card")];
 const monthOrder = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
@@ -153,7 +152,6 @@ function applySearch() {
     column.hidden = !column.querySelector(".resource-card:not([hidden])");
   }
 
-  clearButton.hidden = query.length === 0;
   if (!query) {
     status.innerHTML = 'Search event names, programs, and editions';
   } else if (!visibleCategories) {
@@ -174,16 +172,7 @@ function setPageLayout(layout) {
 setPageLayout("two");
 layoutButtons.forEach((button) => button.addEventListener("click", () => setPageLayout(button.dataset.pageLayout)));
 searchInput.addEventListener("input", applySearch);
-clearButton.addEventListener("click", () => {
-  searchInput.value = "";
-  searchInput.focus();
-  applySearch();
-});
 document.addEventListener("keydown", (event) => {
-  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
-    event.preventDefault();
-    searchInput.focus();
-  }
   if (event.key === "Escape" && document.activeElement === searchInput) {
     searchInput.value = "";
     applySearch();
