@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f5f8">
+  <title>GLC Agenda · Admin</title>
+  <link rel="stylesheet" href="style.css?v=38">
+  <link rel="stylesheet" href="admin.css?v=4">
+  <script src="admin.js?v=4" defer></script>
+</head>
+<body>
+  <main class="admin-page">
+    <header class="admin-header">
+      <div><p class="eyebrow">GLC AGENDA · ADMIN</p><h1>Manage agenda links</h1><p class="intro">Edit names and Drive links, hide or delete entries, or add a new link.</p></div>
+      <a class="back-link" href="index.html">← Back to agenda</a>
+    </header>
+    <section id="login-panel" class="admin-gate">
+      <h2>Admin access</h2>
+      <form id="login-form"><label for="username">Username</label><input id="username" autocomplete="username" required><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required><button class="primary-button" type="submit">Log in</button></form>
+      <p id="login-message" role="status"></p>
+    </section>
+    <section id="editor" hidden>
+      <section class="admin-toolbar">
+        <label class="admin-search">Filter entries<input id="admin-search" type="search" placeholder="Search names or folders"></label>
+        <button id="add-entry" class="primary-button" type="button">＋ Add link</button>
+        <button id="save-changes" class="secondary-button" type="button">Save changes here</button>
+        <button id="download-page" class="secondary-button" type="button">Download updated index.html</button>
+        <button id="logout" class="text-button" type="button">Log out</button>
+      </section>
+      <p id="admin-status" class="admin-status" role="status"></p>
+      <section id="entry-list" class="entry-list"></section>
+    </section>
+    <dialog id="entry-dialog"><form method="dialog" id="entry-form">
+      <div class="dialog-heading"><h2>Add a link</h2><button class="icon-button" value="cancel" aria-label="Close">×</button></div>
+      <label>Place under<select id="entry-parent" required></select></label>
+      <label>Name<input id="entry-name" required></label>
+      <label>Google Drive URL<input id="entry-url" type="url" placeholder="https://drive.google.com/open?id=…" required></label>
+      <div class="dialog-actions"><button class="secondary-button" value="cancel">Cancel</button><button class="primary-button" value="default">Add link</button></div>
+    </form></dialog>
+    <p class="admin-note">This is a simple page-level password check. For public site changes, download the updated file and upload it to the repository on GitHub.</p>
+  </main>
+</body>
+</html>

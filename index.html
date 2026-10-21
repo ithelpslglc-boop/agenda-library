@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3efe7">
+  <meta name="description" content="Browse company agendas by year.">
+  <title>GLC Agenda</title>
+  <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=49">
+  <script src="script.js?v=18" defer></script>
+</head>
+<body>
+  <div class="page">
+    <main id="top">
+      <section class="directory-tools" aria-label="Find a folder">
+        <div class="directory-control-row">
+          <label class="search-field" for="folder-search"><span aria-hidden="true">⌕</span><input id="folder-search" type="search" placeholder="Search agendas and folders" autocomplete="off"><button id="clear-search" type="button" aria-label="Clear search" hidden>×</button></label>
+          <a class="admin-link" href="admin.html">Manage</a>
+          <div class="layout-switch" role="group" aria-label="Choose category layout">
+            <span>LAYOUT</span>
+            <button type="button" data-page-layout="two" aria-label="Two-column layout" title="Two-column layout" aria-pressed="true"><svg viewBox="0 0 24 18" aria-hidden="true"><rect x="1" y="1" width="5" height="16" rx="1.5"/><rect x="8" y="1" width="15" height="16" rx="1.5"/></svg></button>
+            <button type="button" data-page-layout="three" aria-label="Three-column layout" title="Three-column layout" aria-pressed="false"><svg viewBox="0 0 24 18" aria-hidden="true"><rect x="1" y="1" width="4.5" height="16" rx="1.2"/><rect x="7" y="1" width="4.5" height="16" rx="1.2"/><rect x="13" y="1" width="10" height="16" rx="1.2"/></svg></button>
+          </div>
+        </div>
+        <p id="search-status" role="status" aria-live="polite">Search event names, programs, and editions</p>
+      </section>
+      <section class="resource-grid layout-two" aria-label="Company resource folders">
+        <div class="resource-column masterclass-column">
+          <section class="resource-card masterclass-card" aria-labelledby="masterclasses-title">
+          <a class="resource-title heading-link" id="masterclasses-title" href="https://drive.google.com/open?id=1SYLco-EGPPTIH3uRonsFrjHcGdlMfCyy&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Masterclasses </a>
+          <ul class="subfolder-list">
+            <li>
+              <a href="https://drive.google.com/open?id=1UIjDWiody1TJryAAQ2Q3YsmNjGMsV4Ec&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">2026 </a>
+              <ul class="nested-folder-list">
+                <li>
+                  <a href="https://drive.google.com/open?id=1bC169w_g03ZWc2Ftd0TBSOvj7hJWLqSA&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">January </a>
+                  <ul class="nested-folder-list">
+                    <li><a href="https://drive.google.com/open?id=186DiKdLjNUb8t5Ezz1wzVW7QX2kq3QRZ&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Future-Proofing Medcial Affairs MasterClass </a></li>
+                    <li><a href="https://drive.google.com/open?id=1R_OvugPdlBIxSmYsd0YOBFOQgIFRCyfG&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Mastering The CTD For Biologics MasterClass </a></li>
+                    <li><a href="https://drive.google.com/open?id=1JdWOrMs_HxZ-oKvu9_5xMkMJYE7Wu5tg&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Method Validation And Transfer With Focus On The New ICH Q2 MasterClass </a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="https://drive.google.com/open?id=1NvpAFsybTMr81GGcFDWWh0IRrnOapgz7&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">February </a>
+                  <ul class="nested-folder-list">
+                    <li><a href="https://drive.google.com/open?id=1oc3FRkT-VStah2xHRoA6xlImz6sgt6wj&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">A Practical Approach To ESG Risk Management and stress testing masterclass </a></li>
+                    <li><a href="https://drive.google.com/open?id=15PIYYgcNQCApU0V3ikipH5wvEX5eoPiy&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Advanced CMC MasterClass </a></li>
+                    <li><a href="https://drive.google.com/open?id=1d7HrE02Tfa88m44LMVMGsMlZderuT7Iu&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Advanced Stability Testing Of Pharmaceuticals Masterclass </a></li>
+                    <li><a href="https://drive.google.com/open?id=1J6nVkUYbWHmqx477Ps9hW2zz4nrLFnCF&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Designing Robust Cell-based Assays MasterClass </a></li>
+                    <li><a href="https://drive.google.com/open?id=1S-w_MV0tY5IKdd_gouUj85ACUKVi3YzG&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Pediatric Drug Development MasterClass </a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="https://drive.google.com/open?id=1uF94bn7bB3lbnMYrdjgwgTDd8B24wOGx&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">March </a>
+                  <ul class="nested-folder-list">
+                    <li><a href="https://drive.google.com/open?id=14n_UllVkYcf-Ywnarsv29qIwHQI_o4BH&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Digital Twins for manufacturing Hybird Masterclass </a></li>
+                    <li><a href="https://drive.google.com/open?id=1bVFezxjwO26celNLSHdP6YsoHNlRVNNS&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Nitrosamine Impurites Masterclass EU Edition only </a></li>
+                    <li><a href="https://drive.google.com/open?id=1UOqKBdvZmQdYA1Jxv0E3l7gWIDRQL6ci&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">PSMF - Systhem Master File From A-Z Masterclass </a></li>
+                    <li><a href="https://drive.google.com/open?id=1QbFMiw3CKhCrF8oZAw3Y8pXuq46sylGq&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Reference Standard in Pharmaceutical Analysis Masterclass </a></li>
+                    <li><a href="https://drive.google.com/open?id=1T9rL2G38fs-e1jTbDpOHFDjpzGqRGpV8&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Sponsor Responsibilities in Clinical Trials Masterclass </a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="https://drive.google.com/open?id=1t62odB5Wnh7ur27CnZsSGqTHjp6lmrOP&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">April </a>
+                  <ul class="nested-folder-list">
+                    <li><a href="https://drive.google.com/open?id=184nY_2LgouinwNhO29lOaZyETrINNTeR&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">CAPA and Root Cause Analysis Masterclass - Cancelled </a></li>
+                    <li><a href="https://drive.google.com/open?id=1YNvFH9hg8v1CYoDJF4Mu67BgqMH2mhIe&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Fundamentals of Pharmacokinetics Masterclass </a></li>
+                    <li><a href="https://drive.google.com/open?id=193vHlIhavArvnxFHWBn3SGZXOe9hKFEs&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Nitrosamine Impurites Masterclass US EDITION </a></li>
+                    <li><a href="https://drive.google.com/open?id=1cIr-IWtmgBIXGIzEEUCDJpx3fdYjWhvg&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Reverse engineering &amp; solid-state intelligence in generic drug development masterclass </a></li>
+                    <li><a href="https://drive.google.com/open?id=1sNSjV2OAaEGUuqd6wM47ettSVTxfXebP&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Setting Drug Product Specification Masterclass </a></li>
+                    <li><a href="https://drive.google.com/open?id=1Q3rBEPyHVdPGzQFrlTo2HB8_6cVD4yyd&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Sustainable Finance and Reporting Masterclass -{ CANCELLED } </a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="https://drive.google.com/open?id=1bURoecCftXIX_we_mwsTUiBE8KmCT8B4&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">May </a>
+                  <ul class="nested-folder-list">
+                    <li><a href="https://drive.google.com/open?id=18SGrtmwSu7bo0cOBQxiZgXcbyFGK44Tj&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Audit-Proof QC Dissolution MasterClass </a></li>
+                    <li><a href="https://drive.google.com/open?id=1nIyObsO2cR__I3X6QqKgoNjR7l_tzg3Z&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Executive Cybersecurity &amp; Regulatory Masterclass { Cancelled } </a></li>
+                    <li><a href="https://drive.google.com/open?id=1N2YpvJ2a5AP07Buwbb2kpbvM1Eo9KnqQ&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">From Development to Launch - Mastering the Validation of Biotech Processes ( PROCESS VALIDATION ) </a></li>
+                    <li><a href="https://drive.google.com/open?id=1n556RHJn4Q1tdnetlHgp9BgWhbpo0vMI&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Intrest rate risk in the banking book (IRRBB) Masterclass </a></li>
+                    <li><a href="https://drive.google.com/open?id=1_V25dOwZ0FsUR9r_xdvffEpzm8C1XV34&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Introduction to Immnue Checkpoint inhibitors in Practice Masterclass [ Cancelled } </a></li>
+                    <li><a href="https://drive.google.com/open?id=1ZchvS3ahblIblmWRsxKkfHFuC3L1xNso&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">PKPD in drug discovery Masterclass </a></li>
+                    <li><a href="https://drive.google.com/open?id=1-s-Fe5J4T-qUTU6zVlZ8lHTrOAjEAGh1&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Real World Smart Packaging &amp; ePill Solutions for Pharma masterclass { Smart Packaging and ePILL masterclass } </a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="https://drive.google.com/open?id=1-55TwCUxjNP81Ta3u90WP8U6WWfT1KzF&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">June </a>
+                  <ul class="nested-folder-list">
+                    <li><a href="https://drive.google.com/open?id=1XfTyZP2xiTS_nOoaZlZx3SQiQREGox4o&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Advanced Maintenance Planning and Scheduling MasterClass </a></li>
+                    <li><a href="https://drive.google.com/open?id=1g1Oot0FfcBP4it5imWBtpwuMem0zDSwl&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Key Aspects of Analytical Development Masterclass US Only </a></li>
+                    <li><a href="https://drive.google.com/open?id=1yVN5aHPRMhZMrpfrjnxNP5MUe1jwooiY&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Pharmacovigilance Audit Masterclass </a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="https://drive.google.com/open?id=1XADFB0FfmfvnRAAyboeH0BU7KXG1igFD&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">September </a>
+                  <ul class="nested-folder-list">
+                    <li><a href="https://drive.google.com/open?id=13uVAx5r333XEav3MjGi5326ybPRm42Py&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Advanced Stability Testing of Pharmaceuticals masterclass </a></li>
+                    <li><a href="https://drive.google.com/open?id=1Y2tS5V3kuhllbD4ZRnHjKTeG2fWV6H6p&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Fundamentals of Toxicology </a></li>
+                    <li><a href="https://drive.google.com/open?id=1JugIvfBIkqCdMAxCC-jyKNvqHrClJSVK&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">NIS2 DIRECTIVE Masterclass </a></li>
+                    <li><a href="https://drive.google.com/open?id=1Vs2YSlXdjFodhS6cwW667C8BAEIe-tEQ&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Pharmaceutical quality assurance masterclass </a></li>
+                    <li><a href="https://drive.google.com/open?id=1g4gGBjJml8D6CFp9ky0BbbnkemfhuBLq&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">PSMF - System Master File From A-Z September Masterclass </a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="https://drive.google.com/open?id=1JUnOQNcuA6BoDmnEh8cDxYAgr7pOnQb5&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">October </a>
+                  <ul class="nested-folder-list">
+                    <li><a href="https://drive.google.com/open?id=13KqS74f4mKOjQP_ZB2fmYLl7yxi5GS_b&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Business Communication </a></li>
+                    <li>
+                      <a href="https://drive.google.com/open?id=1INl3za3qVnDomiVZwwvBBkljnJtH5iiM&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Advanced Clinical Project Management </a>
+                      <ul class="nested-folder-list">
+                        <li><a href="https://drive.google.com/open?id=1lV1IzUKgMyJNwf1oaf3F2WKaImmRsUgG&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">EU </a></li>
+                        <li><a href="https://drive.google.com/open?id=1w8gGgZnMo5fZfQI3pm2ejusXR5fSMjQ2&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">US </a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="https://drive.google.com/open?id=1E9y9CmtFG1Rg9aU-Ohht-snhDEmLf49L&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">NEXT-GENERATION MEDICAL AFFAIRS </a>
+                      <ul class="nested-folder-list">
+                        <li><a href="https://drive.google.com/open?id=1iHHNS5aufxnVIZ-982GS69t4C9bRiHoB&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">EU </a></li>
+                        <li><a href="https://drive.google.com/open?id=1bLMVGBqrAa42DhT_luxMq2D8H2O6OSK0&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">US </a></li>
+                      </ul>
+                    </li>
+                    <li><a href="https://drive.google.com/open?id=19_qg6JxetWPOdp3ayM_KWmAM9XyU0Qyf&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">NITROSAMINE IMPURITIES </a></li>
+                    <li>
+                      <a href="https://drive.google.com/open?id=19Yrs1usUDvDLiBAP-PvfFlEmjEIqATUk&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">PHARMA LICENSING NEGOTIATION </a>
+                      <ul class="nested-folder-list">
+                        <li><a href="https://drive.google.com/open?id=1XBraxLoWe-gtS1BDZUz406HcF6XUlEkZ&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">EU </a></li>
+                        <li><a href="https://drive.google.com/open?id=1zCbgt_4HLDB-1RjrrrV2xMmq9-0x356q&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">US </a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="https://drive.google.com/open?id=1iWCI1OCjvKl1zGOJJun06wL2pa4unxRH&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">November </a>
+                  <ul class="nested-folder-list">
+                    <li><a href="https://drive.google.com/open?id=1IRdU5RIvsCy_Vl4sAMS7FdPOzXNxZAZt&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">ADVANCED CMC </a></li>
+                    <li><a href="https://drive.google.com/open?id=1AIAI_LpBxF_Jd8pKcfOGOMHS5tnum7_w&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">ADVANCED MEDICAL DEVICE REGULATION MASTER CLASS </a></li>
+                    <li><a href="https://drive.google.com/open?id=18CfbsGcAHEkUi-MoYiUjR957YM7IeP7F&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">ALMOST THREE YEARS OF THE EU GMP ANNEX 1 </a></li>
+                    <li><a href="https://drive.google.com/open?id=1qNxElOWwIIfekBGGP3E6kfg3UBDewxj7&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">IMMUNOGENICITY </a></li>
+                    <li><a href="https://drive.google.com/open?id=1anOPEy89VCggOVqARqyzU0xYNJJSFyZi&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">PHARMA AND BIOTECH CONTRACTS </a></li>
+                    <li>
+                      <a href="https://drive.google.com/open?id=1iCMturu_LzDCI1b2fmExKFFO2JFvA90P&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">SAFETY DATA EXCHANGE AGREEMENTS </a>
+                      <ul class="nested-folder-list">
+                        <li><a href="https://drive.google.com/open?id=1GvePLW5zrHI4BRufRVAe8vyBHDO5LsLy&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">EU </a></li>
+                        <li><a href="https://drive.google.com/open?id=1YMoOkBoxnD5lYCp532_dAzD-h954VONB&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">US </a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="https://drive.google.com/open?id=1p4ktXqhBjlPx4PQs6Vq3tzZEq0U3uAur&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">THE CMC SIDE OF BIOEQUIVALENCE </a>
+                      <ul class="nested-folder-list">
+                        <li><a href="https://drive.google.com/open?id=1PCqmUHB0Qpa-F8UtMvKQ0yzuSjF5o-o-&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">EU </a></li>
+                        <li><a href="https://drive.google.com/open?id=15rKmEU83cpcpGt6ZhQB83-NocUkJ_1B5&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">US </a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="https://drive.google.com/open?id=1_USnFPo9YltAcian44oQBunw5IFGupDd&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">December </a>
+                  <ul class="nested-folder-list">
+                    <li><a href="https://drive.google.com/open?id=18xgVlb0dg5exdouCeD9ZJ8iMNmlZ8WCE&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Advances in Cleaning Validation </a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="https://drive.google.com/open?id=1-pXg00ht4RaOLnJVC4c-XfamNgG1sz8a&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">2027 </a>
+              <ul class="nested-folder-list">
+                <li>
+                  <a href="https://drive.google.com/open?id=1mbXk6pJX0ffXm-Qh68bt8YdJvMy2DLuL&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">January </a>
+                  <ul class="nested-folder-list">
+                    <li><a href="https://drive.google.com/open?id=1b8N3wLkGWkbpP4FUa3MF-w_bWU6rUXT3&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Advanced Medical Device Regulation </a></li>
+                    <li><a href="https://drive.google.com/open?id=1kKpCKWjtJv2QI2fKHaMXQYo8segYgvLS&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">US-ADVANCED CMC </a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="https://drive.google.com/open?id=1b5Esy0cf4usELYVr6VEj-Ed2iGLAtq1X&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">February </a>
+                  <ul class="nested-folder-list">
+                    <li>
+                      <a href="https://drive.google.com/open?id=1ndTLm-WLifOpVTKou9lRh-HKK_cwqZ1C&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">GENERATING BEHAVIOURAL ALPHA </a>
+                      <ul class="nested-folder-list">
+                        <li><a href="https://drive.google.com/open?id=1JDqONvbFtu11-d2iAGtChuiXj1SzCJWN&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">EU </a></li>
+                        <li><a href="https://drive.google.com/open?id=1FI6oD7hEsJZeXwvtd3vdRnUdZheOFIBN&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">US </a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="https://drive.google.com/open?id=1BFfKBDSOzpnqrQ1q7FMzVa-x6yi5_Ygm&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">METHOD VALIDATION </a>
+                      <ul class="nested-folder-list">
+                        <li><a href="https://drive.google.com/open?id=1KFO3MY8DEGu5yIwiWqau7ywSlALtjqIe&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">EU </a></li>
+                        <li><a href="https://drive.google.com/open?id=1AqtoALyoFN7zabfwxpISROe-Vl1VU_6F&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">US </a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="https://drive.google.com/open?id=16LN6wOQctFs5IRC0VC4CpARbJQhf6NyG&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">March </a>
+                  <ul class="nested-folder-list">
+                    <li>
+                      <a href="https://drive.google.com/open?id=1UyFOkBaqRErlNDaxpg0rs3PdTefl2BAz&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Fundamentals of Pharmacokinetics </a>
+                      <ul class="nested-folder-list">
+                        <li><a href="https://drive.google.com/open?id=1-UH58l6KcsBlnBrKGGjCuh3W6iiwYyiV&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">EU </a></li>
+                        <li><a href="https://drive.google.com/open?id=1dXLrv5kVePHmcwdhwVI8SuK5iGPWkH1F&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">US </a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+        </div>
+        <div class="resource-column support-column">
+          <section class="resource-card training-card" aria-labelledby="training-title">
+          <a class="resource-title heading-link" id="training-title" href="https://drive.google.com/open?id=1d5UT6H8N6NBPgkqLPxHqAWxzKLs4_Jh8&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Training Programs </a>
+          <ul class="subfolder-list">
+            <li>
+              <a href="https://drive.google.com/open?id=16N_YQJ8FxdgZcxgs8feF3YhXrLbX9ANa&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">CMC Full Agenda 2026 </a>
+              <ul class="nested-folder-list">
+                <li><a href="https://drive.google.com/open?id=11Pm8zYMY1QB0fcXNfxc4pqxSjoWaa8Nl&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Full Agendas </a></li>
+                <li><a href="https://drive.google.com/open?id=1J4mIqzygjC4zN1znmbFVTiAVnC8G3dOr&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Modules </a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="https://drive.google.com/open?id=1daEy_Qz6nLJKX4zg0Cs69cZ3SudsNpVd&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Impurites Training Course 2026 </a>
+              <ul class="nested-folder-list">
+                <li><a href="https://drive.google.com/open?id=126wLavL01VOk-Gvm4VxCgAh8rQSRpNGh&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Full Agenda </a></li>
+                <li><a href="https://drive.google.com/open?id=1VETvCLA8AZzLfgD6li3q00OdoE1BBIlM&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Modules </a></li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+<section class="resource-card" aria-labelledby="conferences-title">
+          <a class="resource-title heading-link" id="conferences-title" href="https://drive.google.com/open?id=1J4x9MQU1Ta57Zx17kClApYsWnjYP9ye0&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Conferences </a>
+          <ul class="subfolder-list">
+            <li><a href="https://drive.google.com/open?id=10MrhrqiL_i6Wp0zqNliS0GIwbJNmODcp&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">19th HR Minds (September) </a></li>
+            <li><a href="https://drive.google.com/open?id=1qgAFnm49-okZH8bvpNN18E-K2O9Lg8Nv&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Audit Masters </a></li>
+            <li><a href="https://drive.google.com/open?id=1ITLO8QzFZyRKmR02igY8GDn7fd2P6HS-&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">ENERGY RISK </a></li>
+            <li><a href="https://drive.google.com/open?id=17olvBJ08QM6GzxZna4NxEjIKAKnFS8Tx&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">GRC 360 </a></li>
+            <li><a href="https://drive.google.com/open?id=18NAgD6at99cmrhrpRjmG503mM5PiV0oR&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">HR Minds </a></li>
+            <li><a href="https://drive.google.com/open?id=1-E28IAAf9DsltckPuW80GNT9BQhLtCqv&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">HSE 360° Summit </a></li>
+          </ul>
+        </section>
+<section class="resource-card nested-card" aria-labelledby="sponsorship-title">
+          <a class="resource-title heading-link" id="sponsorship-title" href="https://drive.google.com/open?id=1kAoANTQgRgNGcI4I8Q3V3BE9I0lxMybu&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Conference Sponsorship Packages </a>
+          <ul class="subfolder-list">
+            <li><a href="https://drive.google.com/open?id=1xQ9aKa34PjhRmKWGMXZuitcDaKqftDnx&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">19th HR Minds Sponsorship 2026 </a></li>
+            <li><a href="https://drive.google.com/open?id=1d29lAq2FrW0YPjwBPkt4XgmwfToeWH5z&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Credit Risk Sponsorship 2026 </a></li>
+            <li><a href="https://drive.google.com/open?id=1TrCCLKLlzhHzsef_sYHDLsDZE0Ow3xe9&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">GRC 360 Sponsorship </a></li>
+            <li><a href="https://drive.google.com/open?id=1Chf4VlhblRSuuDBgAopUiAeor7rzktHt&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">HR Mind Sponsorship 2026 </a></li>
+            <li><a href="https://drive.google.com/open?id=1bG-teo1c1Nr6inWVw-0C5gwmdHpyzLjU&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">HSE Sponsorship 2026 </a></li>
+          </ul>
+        </section>
+<section class="resource-card" aria-labelledby="contracts-title">
+          <a class="resource-title heading-link" id="contracts-title" href="https://drive.google.com/open?id=1c-GsCMB78BTlD_tU_glMmnVW5G-9SX4t&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">Contracts &amp; General Sponsorship </a>
+          <ul class="subfolder-list"><li><a href="https://drive.google.com/open?id=1UNsNauU6_GAr3BQZZOw6iCjPqijGsZJ8&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">IN-HOUSE CONTRACT </a></li></ul>
+        </section>
+<section class="resource-card" aria-labelledby="qaqc-title">
+          <a class="resource-title heading-link" id="qaqc-title" href="https://drive.google.com/open?id=1oidHdXXEbZpMPXWSZD-hIaLB61YuURX-&amp;usp=drive_copy" target="_blank" rel="noopener noreferrer">QAQC Hub </a>
+        </section>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
