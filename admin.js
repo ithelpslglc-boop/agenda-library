@@ -11,6 +11,7 @@ const dialog = document.querySelector("#entry-dialog");
 const form = document.querySelector("#entry-form");
 let sourceDocument;
 let grid;
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 function text(anchor) { return anchor?.textContent.trim() || "Untitled folder"; }
 function owner(anchor) { return anchor.closest("li") || anchor.closest(".resource-card"); }
@@ -24,6 +25,27 @@ function context(anchor) {
   }
   const heading = anchor.closest(".resource-card")?.querySelector(":scope > .resource-title");
   return [heading && heading !== anchor ? text(heading) : "", ...parents].filter(Boolean).join(" › ") || "Category";
+}
+function monthInfo(anchor) {
+  const eventItem = anchor.closest("li");
+  const monthItem = eventItem?.parentElement?.closest("li");
+  const monthLink = monthItem?.querySelector(":scope > a");
+  if (!monthItem || !monthLink || !MONTH_NAMES.includes(text(monthLink))) return null;
+  const yearItem = monthItem.parentElement?.closest("li");
+  const yearList = yearItem?.querySelector(":scope > ul");
+  const months = [...(yearList?.children || [])].filter((item) => {
+    const link = item.querySelector(":scope > a");
+    return link && MONTH_NAMES.includes(text(link));
+  });
+  const yearsList = yearItem?.parentElement;
+  const years = [...(yearsList?.children || [])].filter((item) => item.querySelector(":scope > a") && /^\d{4}$/.test(text(item.querySelector(":scope > a"))));
+  return { eventItem, monthItem, months, yearItem, years };
+}
+function editionList(eventItem) {
+  const list = [...eventItem.children].find((child) => child.tagName === "UL");
+  if (!list) return null;
+  const links = [...list.querySelectorAll(":scope > li > a")];
+  return links.length && links.every((link) => ["eu", "us"].includes(text(link).toLowerCase())) ? list : null;
 }
 function render() {
   entryList.replaceChildren();
@@ -42,6 +64,124 @@ function render() {
     const name = document.createElement("input"); name.value = text(anchor); name.setAttribute("aria-label", "Display name");
     const url = document.createElement("input"); url.value = anchor.getAttribute("href") || ""; url.setAttribute("aria-label", "Google Drive link");
     fields.append(name, url);
+    const month = monthInfo(anchor);
+    if (month?.months.length) {
+      if (month.years.length) {
+        const yearSelect = document.createElement("select");
+        yearSelect.className = "entry-month-select";
+        yearSelect.setAttribute("aria-label", "Move event to year");
+        month.years.forEach((yearItem) => {
+          const option = document.createElement("option");
+          option.value = text(yearItem.querySelector(":scope > a"));
+          option.textContent = `Year: ${option.value}`;
+          option.selected = yearItem === month.yearItem;
+          yearSelect.append(option);
+        });
+        yearSelect.addEventListener("change", () => {
+          const destinationYear = month.years.find((yearItem) => text(yearItem.querySelector(":scope > a")) === yearSelect.value);
+          const destinationYearList = destinationYear?.querySelector(":scope > ul");
+          const yearMonths = [...(destinationYearList?.children || [])].filter((item) => MONTH_NAMES.includes(text(item.querySelector(":scope > a"))));
+          const currentMonth = text(month.monthItem.querySelector(":scope > a"));
+          const destinationMonth = yearMonths.find((item) => text(item.querySelector(":scope > a")) === currentMonth) || yearMonths[0];
+          if (!destinationMonth || destinationYear === month.yearItem) return;
+          let destinationList = destinationMonth.querySelector(":scope > ul");
+          if (!destinationList) {
+            destinationList = document.createElement("ul");
+            destinationList.className = "nested-folder-list";
+            destinationMonth.append(destinationList);
+          }
+          destinationList.append(month.eventItem);
+          render();
+        });
+        fields.append(yearSelect);
+      }
+      const monthSelect = document.createElement("select");
+      monthSelect.className = "entry-month-select";
+      monthSelect.setAttribute("aria-label", "Move event to month");
+      month.months.forEach((monthItem) => {
+        const monthLink = monthItem.querySelector(":scope > a");
+        const option = document.createElement("option");
+        option.value = text(monthLink);
+        option.textContent = `Month: ${text(monthLink)}`;
+        option.selected = monthItem === month.monthItem;
+        monthSelect.append(option);
+      });
+      monthSelect.addEventListener("change", () => {
+        const destination = month.months.find((monthItem) => text(monthItem.querySelector(":scope > a")) === monthSelect.value);
+        if (!destination || destination === month.monthItem) return;
+        let destinationList = destination.querySelector(":scope > ul");
+        if (!destinationList) {
+          destinationList = document.createElement("ul");
+          destinationList.className = "nested-folder-list";
+          destination.append(destinationList);
+        }
+        destinationList.append(month.eventItem);
+        render();
+      });
+      fields.append(monthSelect);
+
+      const childList = [...month.eventItem.children].find((child) => child.tagName === "UL");
+      const editions = editionList(month.eventItem);
+      if (!childList || editions) {
+        if (editions) editions.classList.add("edition-row");
+        const editionEditor = document.createElement("div");
+        editionEditor.className = "edition-editor";
+        const mode = document.createElement("select");
+        mode.setAttribute("aria-label", "Event link format");
+        mode.innerHTML = '<option value="single">Single link</option><option value="editions">EU and US editions</option>';
+        mode.value = editions ? "editions" : "single";
+        const editionFields = document.createElement("div");
+        editionFields.className = "edition-fields";
+        const makeEditionInput = (label) => {
+          const input = document.createElement("input");
+          input.type = "url";
+          input.placeholder = `${label} edition folder URL`;
+          input.setAttribute("aria-label", `${label} edition folder URL`);
+          const existing = editions && [...editions.querySelectorAll(":scope > li > a")].find((link) => text(link).toLowerCase() === label.toLowerCase());
+          input.value = existing?.getAttribute("href") || "";
+          return input;
+        };
+        const euInput = makeEditionInput("EU");
+        const usInput = makeEditionInput("US");
+        editionFields.append(euInput, usInput);
+        const syncEditionUrls = () => {
+          if (mode.value !== "editions") return;
+          let list = editionList(month.eventItem);
+          if (!list) {
+            list = document.createElement("ul");
+            list.className = "nested-folder-list edition-row";
+            month.eventItem.append(list);
+          }
+          for (const [label, input] of [["EU", euInput], ["US", usInput]]) {
+            let link = [...list.querySelectorAll(":scope > li > a")].find((item) => text(item).toLowerCase() === label.toLowerCase());
+            if (!input.value.trim()) {
+              link?.closest("li")?.remove();
+              continue;
+            }
+            if (!link) {
+              const item = document.createElement("li");
+              link = document.createElement("a");
+              link.textContent = label;
+              link.target = "_blank";
+              link.rel = "noopener noreferrer";
+              item.append(link);
+              list.append(item);
+            }
+            link.href = input.value.trim();
+          }
+        };
+        mode.addEventListener("change", () => {
+          editionFields.hidden = mode.value !== "editions";
+          if (mode.value === "single") editionList(month.eventItem)?.remove();
+          else syncEditionUrls();
+        });
+        euInput.addEventListener("input", syncEditionUrls);
+        usInput.addEventListener("input", syncEditionUrls);
+        editionFields.hidden = mode.value !== "editions";
+        editionEditor.append(mode, editionFields);
+        fields.append(editionEditor);
+      }
+    }
     name.addEventListener("input", () => { anchor.textContent = name.value; anchor.title = name.value; });
     url.addEventListener("input", () => anchor.setAttribute("href", url.value));
     const actions = document.createElement("div"); actions.className = "entry-actions";

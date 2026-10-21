@@ -13,3 +13,9 @@
 #entry-form .dialog-heading h2 { margin:0; color:var(--text,#0f172a); font-size:24px; }
 #entry-form .dialog-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:9px; padding-top:4px; }
 #entry-form .dialog-actions button { min-width:110px; min-height:44px; }
+
+.entry-month-select{width:100%;min-width:0;min-height:36px;padding:7px 9px;border:1px solid #cbd3df;border-radius:5px;background:#fff;color:#29364a;font:inherit;font-size:12px}
+
+
+.edition-editor{display:grid;gap:6px}.edition-editor>select{width:100%;min-height:36px;padding:7px 9px;border:1px solid #cbd3df;border-radius:5px;background:#fff;color:#29364a;font:inherit;font-size:12px}.edition-fields{display:grid;grid-template-columns:1fr 1fr;gap:6px}.edition-fields[hidden]{display:none}@media(max-width:620px){.edition-fields{grid-template-columns:1fr}}
+
