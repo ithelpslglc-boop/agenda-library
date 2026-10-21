@@ -165,11 +165,15 @@ setupMasterclassOrderAndToggles();
 const layoutButtons = [...document.querySelectorAll("[data-page-layout]")];
 const resourceGrid = document.querySelector(".resource-grid");
 function setPageLayout(layout) {
-  resourceGrid?.classList.toggle("layout-two", layout === "two");
-  resourceGrid?.classList.toggle("layout-three", layout === "three");
-  layoutButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.pageLayout === layout)));
+  const selectedLayout = layout === "three" ? "three" : "two";
+  resourceGrid?.classList.toggle("layout-two", selectedLayout === "two");
+  resourceGrid?.classList.toggle("layout-three", selectedLayout === "three");
+  layoutButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.pageLayout === selectedLayout)));
+  try { localStorage.setItem("glc-agenda-layout", selectedLayout); } catch { /* Layout still works when storage is unavailable. */ }
 }
-setPageLayout("two");
+let savedLayout = "two";
+try { if (localStorage.getItem("glc-agenda-layout") === "three") savedLayout = "three"; } catch { /* Use the default layout. */ }
+setPageLayout(savedLayout);
 layoutButtons.forEach((button) => button.addEventListener("click", () => setPageLayout(button.dataset.pageLayout)));
 searchInput.addEventListener("input", applySearch);
 document.addEventListener("keydown", (event) => {
