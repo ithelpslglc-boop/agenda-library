@@ -1,6 +1,7 @@
 const savedAgendaMarkup = (() => {
   try { return localStorage.getItem("glc-agenda-markup-v1"); } catch { return null; }
 })();
+const PAGE_REFRESH_INTERVAL_MS = 60 * 1000;
 if (savedAgendaMarkup) {
   const grid = document.querySelector(".resource-grid");
   if (grid) grid.innerHTML = savedAgendaMarkup;
@@ -191,3 +192,8 @@ document.addEventListener("keydown", (event) => {
 });
 
 applySearch();
+
+// Periodically reload the published static page so visitors pick up new deployments.
+window.setInterval(() => {
+  if (!document.hidden && document.activeElement !== searchInput) window.location.reload();
+}, PAGE_REFRESH_INTERVAL_MS);
