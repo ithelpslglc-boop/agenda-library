@@ -124,3 +124,19 @@
 #edit-form .hide-control{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:9px!important;margin:0!important;white-space:nowrap}
 #edit-form .hide-control input[type=checkbox]{display:inline-block!important;flex:0 0 16px!important;width:16px!important;height:16px!important;min-width:16px!important;min-height:16px!important;margin:0!important;padding:0!important;border:initial!important;accent-color:#586fe0}
 #edit-form .hide-control input[type=checkbox]+*{display:inline}
+
+/* Hidden entries remain available in admin so they can be restored later. */
+.admin-agenda .resource-card li[data-admin-hidden="true"]{opacity:1!important}
+.admin-agenda .resource-card li[data-admin-hidden="true"]>.admin-entry-row{border-left:3px solid #d49b28;border-radius:6px;background:rgba(255,247,223,.78);padding:4px 8px!important}
+.admin-agenda .resource-card li[data-admin-hidden="true"]>.admin-entry-row::after{content:"Hidden";flex:0 0 auto;padding:3px 7px;border:1px solid #f0d89a;border-radius:999px;background:#fff7df;color:#795409;font-size:9px;font-weight:850;letter-spacing:.04em}
+
+/* Explicit admin-only status pill for entries hidden from the public agenda. */
+.admin-agenda .admin-hidden-badge{display:inline-flex!important;flex:0 0 auto;align-items:center;justify-content:center;margin:0 0 0 6px;padding:3px 7px;border:1px solid #f0d89a;border-radius:999px;background:#fff7df;color:#795409;font-size:9px;font-weight:850;letter-spacing:.06em;line-height:1;white-space:nowrap}
+.admin-agenda .resource-card li[data-admin-hidden="true"]>.admin-entry-row::after{display:none!important;content:none!important}
+
+/* Hidden uses the same badge shape and sizing as the event status badges. */
+.admin-agenda .agenda-badge.badge-hidden{border-color:#b8e7d1;background:#e8f8ef;color:#126342}
+.admin-agenda .admin-hidden-badge{display:none!important}
+/* Force the Hidden pill's light green fill over all shared badge theme rules. */
+.admin-agenda .agenda-badge.badge-hidden{background-color:#e8f8ef!important;border-color:#b8e7d1!important;color:#126342!important}
+.admin-agenda .agenda-badge.badge-hidden{background-color:#eaf3ff!important;border-color:#bad3f5!important;color:#24508c!important}

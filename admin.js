@@ -80,6 +80,16 @@ function ensureLabelAndBadge(anchor) {
     badge.textContent = anchor.dataset.badge;
   } else badge?.remove();
 }
+function markHidden(owner, placement) {
+  if (!owner?.hasAttribute("data-admin-hidden")) return;
+  const badge = document.createElement("span");
+  badge.className = "agenda-badge badge-hidden";
+  badge.textContent = "HIDDEN";
+  badge.style.setProperty("background-color", "#eaf3ff", "important");
+  badge.style.setProperty("border-color", "#bad3f5", "important");
+  badge.style.setProperty("color", "#24508c", "important");
+  placement.insertAdjacentElement("afterend", badge);
+}
 function sortMasterclasses(preview) {
   const root = preview.querySelector("#masterclasses-title")?.closest(".resource-card")?.querySelector(":scope > .subfolder-list");
   if (!root) return;
@@ -96,8 +106,9 @@ function filterPreview(preview) {
   for (const card of preview.querySelectorAll(".resource-card")) {
     const cardLinks = [...card.querySelectorAll("a")];
     if (!query) {
-      card.hidden = card.hasAttribute("data-admin-hidden");
-      for (const item of card.querySelectorAll("li")) item.hidden = item.hasAttribute("data-admin-hidden");
+      // Admin must retain access to hidden items so they can be edited and restored.
+      card.hidden = false;
+      for (const item of card.querySelectorAll("li")) item.hidden = false;
       continue;
     }
     const matches = new Set(cardLinks.filter((a) => `${labelOf(a)} ${a.href}`.toLowerCase().includes(query)));
@@ -173,7 +184,11 @@ function renderPreview() {
       button.style.setProperty("transform", "none", "important");
       button.style.setProperty("white-space", "nowrap", "important");
       row.append(button);
-    } else anchor.insertAdjacentElement("afterend", button);
+      markHidden(item, button);
+    } else {
+      anchor.insertAdjacentElement("afterend", button);
+      markHidden(anchor.closest("li") || anchor.closest(".resource-card"), button);
+    }
   });
   previewHost.replaceChildren(preview);
   filterPreview(preview);
