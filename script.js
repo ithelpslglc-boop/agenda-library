@@ -15,6 +15,13 @@ for (const anchor of document.querySelectorAll(".resource-grid a")) {
     label.textContent = fullLabel;
     anchor.replaceChildren(label);
   }
+  let badge = anchor.querySelector(":scope > .agenda-badge");
+  if (anchor.dataset.badge) {
+    if (!badge) { badge = document.createElement("span"); anchor.append(badge); }
+    badge.className = `agenda-badge badge-${anchor.dataset.badge.toLowerCase()}`;
+    badge.textContent = anchor.dataset.badge;
+  } else badge?.remove();
+  anchor.classList.toggle("is-cancelled", anchor.dataset.badge?.toLowerCase() === "cancelled");
 }const searchInput = document.querySelector("#folder-search");
 const status = document.querySelector("#search-status");
 const cards = [...document.querySelectorAll(".resource-card")];

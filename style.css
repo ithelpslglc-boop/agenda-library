@@ -853,3 +853,29 @@ body::before {
   .resource-grid.layout-three > .support-column > .training-stack,
   .resource-grid.layout-three > .support-column > .conference-stack { grid-column:1; }
 }
+
+/* Agenda status badges */
+.agenda-badge{display:inline-flex;flex:0 0 auto;align-items:center;margin-left:7px;padding:3px 7px;border:1px solid transparent;border-radius:999px;font-size:9px;font-weight:850;letter-spacing:.06em;line-height:1;vertical-align:middle;white-space:nowrap}
+.badge-new{border-color:#b8e7d1;background:#e8f8ef;color:#126342}.badge-postponed{border-color:#f0d89a;background:#fff7df;color:#795409}.badge-cancelled{border-color:#f0bfc7;background:#fff0f2;color:#9a3044}
+
+/* Cancelled masterclasses get a clear corner ribbon without changing title flow. */
+.masterclass-card .masterclass-event-grid>li:has(>a>.agenda-badge.badge-cancelled){position:relative;padding-top:8px}
+.masterclass-card .masterclass-event-grid>li>a>.agenda-badge.badge-cancelled{position:absolute;top:-8px;right:-5px;z-index:3;margin:0;box-shadow:0 3px 10px rgba(154,48,68,.18)}
+
+.masterclass-card .masterclass-event-grid>li>a:has(>.agenda-badge.badge-cancelled)>.link-label{text-decoration:line-through;text-decoration-thickness:1.5px}
+
+.masterclass-card .masterclass-event-grid>li:has(.agenda-badge.badge-cancelled){position:relative;padding-top:11px;overflow:visible}
+.masterclass-card .masterclass-event-grid>li .agenda-badge.badge-cancelled{position:absolute;top:-9px;right:-8px;z-index:8;margin:0;box-shadow:0 4px 12px rgba(154,48,68,.2)}
+.masterclass-card .masterclass-event-grid a.is-cancelled>.link-label{text-decoration:line-through!important;text-decoration-thickness:2px!important;text-decoration-color:currentColor!important}
+
+.masterclass-card .masterclass-event-grid>li:has(a.is-cancelled){position:relative;padding-top:10px;overflow:visible}
+.masterclass-card .masterclass-event-grid>li .agenda-badge.badge-cancelled{display:none}
+.masterclass-card .masterclass-event-grid>li:has(a.is-cancelled)::after{position:absolute;top:-8px;right:-8px;z-index:8;display:inline-flex;align-items:center;padding:3px 7px;border:1px solid #f0bfc7;border-radius:999px;background:#fff0f2;color:#9a3044;box-shadow:0 4px 12px rgba(154,48,68,.2);font-size:9px;font-weight:850;letter-spacing:.06em;line-height:1;content:"CANCELLED"}
+
+/* Every masterclass status badge floats over the same upper-right card edge. */
+.masterclass-card .masterclass-event-grid>li:has(.agenda-badge){position:relative;padding-top:10px;overflow:visible}
+.masterclass-card .masterclass-event-grid>li .agenda-badge{position:absolute;top:-8px;right:-8px;z-index:8;margin:0;box-shadow:0 4px 12px rgba(39,57,105,.16)}
+.masterclass-card .masterclass-event-grid>li:has(a.is-cancelled)::after{display:none;content:none}
+
+.masterclass-card .masterclass-event-grid>li .agenda-badge.badge-cancelled{display:inline-flex!important;visibility:visible!important;opacity:1!important}
+.masterclass-card .masterclass-event-grid>li:has(a.is-cancelled)::after{display:none!important;content:none!important}

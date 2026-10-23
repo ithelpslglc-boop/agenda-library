@@ -6,40 +6,50 @@
   <meta name="theme-color" content="#f3f5f8">
   <title>GLC Agenda · Admin</title>
   <link rel="icon" type="image/png" href="images/notebook.png?v=1">
-  <link rel="stylesheet" href="style.css?v=51">
-  <link rel="stylesheet" href="admin.css?v=7">
-  <script src="admin.js?v=7" defer></script>
+  <link rel="stylesheet" href="style.css?v=65">
+  <link rel="stylesheet" href="admin.css?v=20">
+  <script src="admin.js?v=19" defer></script>
 </head>
 <body>
   <main class="admin-page">
     <header class="admin-header">
-      <div><p class="eyebrow">GLC AGENDA · ADMIN</p><h1>Manage agenda links</h1><p class="intro">Edit names and Drive links, hide or delete entries, or add a new link.</p></div>
+      <a class="admin-brand" href="index.html"><img src="images/logo.png" alt="GLC Agenda"><span>ADMIN</span></a>
       <a class="back-link" href="index.html">← Back to agenda</a>
     </header>
     <section id="login-panel" class="admin-gate">
-      <h2>Admin access</h2>
-      <form id="login-form"><label for="username">Username</label><input id="username" autocomplete="username" required><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required><button class="primary-button" type="submit">Log in</button></form>
+      <div class="gate-intro"><span class="gate-mark" aria-hidden="true">GLC</span><p class="gate-eyebrow">AGENDA CONTROL DESK</p><h2>Welcome back.</h2><p class="gate-copy">Sign in to manage event links, editions, and agenda details.</p><div class="gate-secure"><span></span> Private admin access</div></div>
+      <form id="login-form"><label for="username">Username</label><input id="username" autocomplete="username" placeholder="Enter your username" required><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required><button class="primary-button" type="submit">Continue <span aria-hidden="true">→</span></button></form>
       <p id="login-message" role="status"></p>
     </section>
     <section id="editor" hidden>
       <section class="admin-toolbar">
-        <label class="admin-search">Filter entries<input id="admin-search" type="search" placeholder="Search names or folders"></label>
+        <label class="admin-search">Search<input id="admin-search" type="search" placeholder="Search agendas and events"></label>
         <button id="add-entry" class="primary-button" type="button">＋ Add link</button>
         <button id="save-changes" class="secondary-button" type="button">Save changes here</button>
         <button id="download-page" class="secondary-button" type="button">Download updated index.html</button>
         <button id="logout" class="text-button" type="button">Log out</button>
       </section>
       <p id="admin-status" class="admin-status" role="status"></p>
-      <section id="entry-list" class="entry-list"></section>
+      <section id="admin-agenda" aria-label="Editable agenda preview"></section>
     </section>
+    <dialog id="edit-dialog"><form id="edit-form">
+      <div class="dialog-heading"><div><p class="eyebrow">EDIT AGENDA ITEM</p><h2 id="edit-dialog-title">Edit item</h2></div><button class="icon-button" type="button" data-close-edit aria-label="Close">×</button></div>
+      <label>Name<input id="edit-name" required></label>
+      <label>Google Drive URL<input id="edit-url" type="url" required></label>
+      <div id="edit-placement" class="placement-fields" hidden><label>Year<select id="edit-year"></select></label><label>Month<select id="edit-month"></select></label></div>
+      <div id="edit-editions" class="edition-edit-fields" hidden><label>Link format<select id="edit-link-mode"><option value="single">Single link</option><option value="editions">EU and US editions</option></select></label><div id="edit-edition-urls" class="edition-url-fields"><label>EU folder URL<input id="edit-eu-url" type="url"></label><label>US folder URL<input id="edit-us-url" type="url"></label></div></div>
+      <fieldset class="badge-options"><legend>Badge</legend><label><input type="radio" name="edit-badge" value=""> None</label><label><input type="radio" name="edit-badge" value="NEW"> NEW</label><label><input type="radio" name="edit-badge" value="POSTPONED"> POSTPONED</label><label><input type="radio" name="edit-badge" value="CANCELLED"> CANCELLED</label></fieldset>
+      <label class="hide-control"><input id="edit-hidden" type="checkbox"> Hide this item</label>
+      <div class="dialog-actions"><button id="delete-entry" class="delete-button" type="button">Delete</button><span class="action-spacer"></span><button class="secondary-button" type="button" data-close-edit>Cancel</button><button class="primary-button" type="submit">Save item</button></div>
+    </form></dialog>
     <dialog id="entry-dialog"><form method="dialog" id="entry-form">
       <div class="dialog-heading"><h2>Add a link</h2><button class="icon-button" value="cancel" aria-label="Close">×</button></div>
       <label>Place under<select id="entry-parent" required></select></label>
       <label>Name<input id="entry-name" required></label>
       <label>Google Drive URL<input id="entry-url" type="url" placeholder="https://drive.google.com/open?id=…" required></label>
+      <fieldset class="badge-options"><legend>Badge</legend><label><input type="radio" name="add-badge" value="" checked> None</label><label><input type="radio" name="add-badge" value="NEW"> NEW</label><label><input type="radio" name="add-badge" value="POSTPONED"> POSTPONED</label><label><input type="radio" name="add-badge" value="CANCELLED"> CANCELLED</label></fieldset>
       <div class="dialog-actions"><button class="secondary-button" value="cancel">Cancel</button><button class="primary-button" value="default">Add link</button></div>
     </form></dialog>
-    <p class="admin-note">This is a simple page-level password check. For public site changes, download the updated file and upload it to the repository on GitHub.</p>
   </main>
 </body>
 </html>
