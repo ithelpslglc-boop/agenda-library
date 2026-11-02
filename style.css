@@ -879,3 +879,5 @@ body::before {
 
 .masterclass-card .masterclass-event-grid>li .agenda-badge.badge-cancelled{display:inline-flex!important;visibility:visible!important;opacity:1!important}
 .masterclass-card .masterclass-event-grid>li:has(a.is-cancelled)::after{display:none!important;content:none!important}
+
+.badge-updated{border-color:#bfcef5;background:#edf2ff;color:#3d55a5}

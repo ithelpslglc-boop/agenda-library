@@ -2,6 +2,8 @@ const USERNAME = "Sasly";
 const PASSWORD = "Sasly@1234";
 const STORAGE_KEY = "glc-agenda-markup-v1";
 const LAYOUT_KEY = "glc-agenda-layout";
+const BADGE_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000;
+const EXPIRING_BADGES = new Set(["new", "updated"]);
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const loginPanel = document.querySelector("#login-panel");
 const editor = document.querySelector("#editor");
@@ -63,6 +65,16 @@ function getEditionList(item) {
   const links = [...list.querySelectorAll(":scope > li > a")];
   return links.length && links.every((link) => ["eu", "us"].includes(labelOf(link).toLowerCase())) ? list : null;
 }
+function expireTimeLimitedBadge(anchor) {
+  const badge = anchor.dataset.badge?.toLowerCase();
+  if (!EXPIRING_BADGES.has(badge)) return;
+  const expiresAt = Number(anchor.dataset.badgeExpiresAt);
+  // Unstamped legacy NEW/UPDATED badges expire instead of lingering indefinitely.
+  if (!Number.isFinite(expiresAt) || expiresAt <= Date.now()) {
+    delete anchor.dataset.badge;
+    delete anchor.dataset.badgeExpiresAt;
+  }
+}
 function ensureLabelAndBadge(anchor) {
   const currentLabel = anchor.querySelector(":scope > .link-label");
   if (!currentLabel) {
@@ -72,6 +84,7 @@ function ensureLabelAndBadge(anchor) {
     anchor.replaceChildren(label);
   }
   anchor.title = labelOf(anchor);
+  expireTimeLimitedBadge(anchor);
   anchor.classList.toggle("is-cancelled", anchor.dataset.badge?.toLowerCase() === "cancelled");
   let badge = anchor.querySelector(":scope > .agenda-badge");
   if (anchor.dataset.badge) {
@@ -245,6 +258,8 @@ function saveEdit(event) {
   currentAnchor.href = document.querySelector("#edit-url").value.trim();
   const selectedBadge = editForm.querySelector('input[name="edit-badge"]:checked')?.value || "";
   if (selectedBadge) currentAnchor.dataset.badge = selectedBadge; else delete currentAnchor.dataset.badge;
+  if (EXPIRING_BADGES.has(selectedBadge.toLowerCase())) currentAnchor.dataset.badgeExpiresAt = String(Date.now() + BADGE_EXPIRY_MS);
+  else delete currentAnchor.dataset.badgeExpiresAt;
   if (currentOwner) {
     if (document.querySelector("#edit-hidden").checked) currentOwner.setAttribute("data-admin-hidden", "true");
     else currentOwner.removeAttribute("data-admin-hidden");
@@ -332,6 +347,7 @@ addForm.addEventListener("submit", (event) => {
   const item = document.createElement("li"); const link = document.createElement("a");
   link.textContent = document.querySelector("#entry-name").value.trim(); link.href = url; link.target = "_blank"; link.rel = "noopener noreferrer";
   const badge = addForm.querySelector('input[name="add-badge"]:checked')?.value || ""; if (badge) link.dataset.badge = badge;
+  if (EXPIRING_BADGES.has(badge.toLowerCase())) link.dataset.badgeExpiresAt = String(Date.now() + BADGE_EXPIRY_MS);
   item.append(link); list.append(item); addDialog.close(); renderPreview();
 });
 document.querySelector("#save-changes").addEventListener("click", () => {

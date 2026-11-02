@@ -2,6 +2,7 @@ const savedAgendaMarkup = (() => {
   try { return localStorage.getItem("glc-agenda-markup-v1"); } catch { return null; }
 })();
 const PAGE_REFRESH_INTERVAL_MS = 60 * 1000;
+const EXPIRING_BADGES = new Set(["new", "updated"]);
 if (savedAgendaMarkup) {
   const grid = document.querySelector(".resource-grid");
   if (grid) grid.innerHTML = savedAgendaMarkup;
@@ -14,6 +15,14 @@ for (const anchor of document.querySelectorAll(".resource-grid a")) {
     label.className = "link-label";
     label.textContent = fullLabel;
     anchor.replaceChildren(label);
+  }
+  const badgeName = anchor.dataset.badge?.toLowerCase();
+  if (EXPIRING_BADGES.has(badgeName)) {
+    const expiresAt = Number(anchor.dataset.badgeExpiresAt);
+    if (!Number.isFinite(expiresAt) || expiresAt <= Date.now()) {
+      delete anchor.dataset.badge;
+      delete anchor.dataset.badgeExpiresAt;
+    }
   }
   let badge = anchor.querySelector(":scope > .agenda-badge");
   if (anchor.dataset.badge) {

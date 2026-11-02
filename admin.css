@@ -140,3 +140,5 @@
 /* Force the Hidden pill's light green fill over all shared badge theme rules. */
 .admin-agenda .agenda-badge.badge-hidden{background-color:#e8f8ef!important;border-color:#b8e7d1!important;color:#126342!important}
 .admin-agenda .agenda-badge.badge-hidden{background-color:#eaf3ff!important;border-color:#bad3f5!important;color:#24508c!important}
+
+.admin-agenda .agenda-badge.badge-updated{border-color:#bfcef5;background:#edf2ff;color:#3d55a5}

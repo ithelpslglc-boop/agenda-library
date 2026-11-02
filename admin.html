@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#f3f5f8">
   <title>GLC Agenda · Admin</title>
   <link rel="icon" type="image/png" href="images/notebook.png?v=1">
-  <link rel="stylesheet" href="style.css?v=65">
-  <link rel="stylesheet" href="admin.css?v=26">
-  <script src="admin.js?v=23" defer></script>
+  <link rel="stylesheet" href="style.css?v=66">
+  <link rel="stylesheet" href="admin.css?v=27">
+  <script src="admin.js?v=24" defer></script>
 </head>
 <body>
   <main class="admin-page">
@@ -38,7 +38,7 @@
       <label>Google Drive URL<input id="edit-url" type="url" required></label>
       <div id="edit-placement" class="placement-fields" hidden><label>Year<select id="edit-year"></select></label><label>Month<select id="edit-month"></select></label></div>
       <div id="edit-editions" class="edition-edit-fields" hidden><label>Link format<select id="edit-link-mode"><option value="single">Single link</option><option value="editions">EU and US editions</option></select></label><div id="edit-edition-urls" class="edition-url-fields"><label>EU folder URL<input id="edit-eu-url" type="url"></label><label>US folder URL<input id="edit-us-url" type="url"></label></div></div>
-      <fieldset class="badge-options"><legend>Badge</legend><label><input type="radio" name="edit-badge" value=""> None</label><label><input type="radio" name="edit-badge" value="NEW"> NEW</label><label><input type="radio" name="edit-badge" value="POSTPONED"> POSTPONED</label><label><input type="radio" name="edit-badge" value="CANCELLED"> CANCELLED</label></fieldset>
+      <fieldset class="badge-options"><legend>Badge</legend><label><input type="radio" name="edit-badge" value=""> None</label><label><input type="radio" name="edit-badge" value="NEW"> NEW</label><label><input type="radio" name="edit-badge" value="UPDATED"> UPDATED</label><label><input type="radio" name="edit-badge" value="POSTPONED"> POSTPONED</label><label><input type="radio" name="edit-badge" value="CANCELLED"> CANCELLED</label></fieldset>
       <label class="hide-control"><input id="edit-hidden" type="checkbox"> Hide this item</label>
       <div class="dialog-actions"><button id="delete-entry" class="delete-button" type="button">Delete</button><span class="action-spacer"></span><button class="secondary-button" type="button" data-close-edit>Cancel</button><button class="primary-button" type="submit">Save item</button></div>
     </form></dialog>
@@ -47,7 +47,7 @@
       <label>Place under<select id="entry-parent" required></select></label>
       <label>Name<input id="entry-name" required></label>
       <label>Google Drive URL<input id="entry-url" type="url" placeholder="https://drive.google.com/open?id=…" required></label>
-      <fieldset class="badge-options"><legend>Badge</legend><label><input type="radio" name="add-badge" value="" checked> None</label><label><input type="radio" name="add-badge" value="NEW"> NEW</label><label><input type="radio" name="add-badge" value="POSTPONED"> POSTPONED</label><label><input type="radio" name="add-badge" value="CANCELLED"> CANCELLED</label></fieldset>
+      <fieldset class="badge-options"><legend>Badge</legend><label><input type="radio" name="add-badge" value="" checked> None</label><label><input type="radio" name="add-badge" value="NEW"> NEW</label><label><input type="radio" name="add-badge" value="UPDATED"> UPDATED</label><label><input type="radio" name="add-badge" value="POSTPONED"> POSTPONED</label><label><input type="radio" name="add-badge" value="CANCELLED"> CANCELLED</label></fieldset>
       <div class="dialog-actions"><button class="secondary-button" value="cancel">Cancel</button><button class="primary-button" value="default">Add link</button></div>
     </form></dialog>
   </main>
