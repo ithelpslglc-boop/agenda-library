@@ -3,6 +3,15 @@ const savedAgendaMarkup = (() => {
 })();
 const PAGE_REFRESH_INTERVAL_MS = 60 * 1000;
 const EXPIRING_BADGES = new Set(["new", "updated"]);
+const linkedinBannersLink = document.querySelector("#linkedin-banners-link");
+if (linkedinBannersLink) {
+  const hidden = linkedinBannersLink.getAttribute("data-admin-hidden") === "true";
+  const destination = linkedinBannersLink.getAttribute("href")?.trim();
+  linkedinBannersLink.hidden = hidden;
+  linkedinBannersLink.setAttribute("aria-disabled", String(!destination));
+  if (destination) linkedinBannersLink.removeAttribute("tabindex");
+  else linkedinBannersLink.setAttribute("tabindex", "-1");
+}
 if (savedAgendaMarkup) {
   const grid = document.querySelector(".resource-grid");
   if (grid) grid.innerHTML = savedAgendaMarkup;

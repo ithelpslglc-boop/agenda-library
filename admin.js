@@ -1,6 +1,7 @@
 const USERNAME = "Sasly";
 const PASSWORD = "Sasly@1234";
 const STORAGE_KEY = "glc-agenda-markup-v1";
+const LINKEDIN_STORAGE_KEY = "glc-linkedin-banners-v1";
 const LAYOUT_KEY = "glc-agenda-layout";
 const BADGE_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000;
 const EXPIRING_BADGES = new Set(["new", "updated"]);
@@ -20,6 +21,7 @@ let grid;
 let currentAnchor;
 let currentOwner;
 let currentMonthInfo;
+let linkedinSettings = { url: "", hidden: false };
 
 function labelOf(anchor) {
   const label = anchor?.querySelector(":scope > .link-label");
@@ -304,6 +306,19 @@ async function loadData() {
   const response = await fetch("index.html", { cache: "no-store" });
   if (!response.ok) throw new Error("Could not load index.html. Open this page from GitHub Pages.");
   sourceDocument = new DOMParser().parseFromString(await response.text(), "text/html");
+  const linkedinLink = sourceDocument.querySelector("#linkedin-banners-link");
+  linkedinSettings = {
+    url: linkedinLink?.getAttribute("href") || "",
+    hidden: linkedinLink?.getAttribute("data-admin-hidden") === "true"
+  };
+  try {
+    const savedLinkSettings = JSON.parse(localStorage.getItem(LINKEDIN_STORAGE_KEY) || "null");
+    if (savedLinkSettings && typeof savedLinkSettings === "object" &&
+      (String(savedLinkSettings.url || "").trim() || savedLinkSettings.hidden || Number(savedLinkSettings.updatedAt))) {
+      linkedinSettings = { ...linkedinSettings, ...savedLinkSettings };
+    }
+  } catch { /* Use values saved in index.html if browser storage is unavailable. */ }
+  applyLinkedInSettings(sourceDocument);
   grid = sourceDocument.querySelector(".resource-grid");
   if (!grid) throw new Error("Could not find the agenda in index.html.");
   const saved = localStorage.getItem(STORAGE_KEY);
@@ -311,6 +326,27 @@ async function loadData() {
   loginPanel.hidden = true;
   editor.hidden = false;
   renderPreview();
+}
+function applyLinkedInSettings(doc) {
+  const link = doc.querySelector("#linkedin-banners-link");
+  if (!link) return;
+  const url = String(linkedinSettings.url || "").trim();
+  if (url) link.setAttribute("href", url); else link.removeAttribute("href");
+  if (linkedinSettings.hidden) link.setAttribute("data-admin-hidden", "true");
+  else link.removeAttribute("data-admin-hidden");
+  syncLinkedInPreview();
+}
+function syncLinkedInPreview() {
+  const preview = document.querySelector("#admin-linkedin-banners-preview");
+  const hiddenBadge = document.querySelector("#admin-linkedin-hidden-badge");
+  if (!preview) return;
+  const url = String(linkedinSettings.url || "").trim();
+  if (url) preview.href = url; else preview.removeAttribute("href");
+  const disabled = !url || Boolean(linkedinSettings.hidden);
+  preview.setAttribute("aria-disabled", String(disabled));
+  if (disabled) preview.setAttribute("tabindex", "-1"); else preview.removeAttribute("tabindex");
+  preview.classList.toggle("is-hidden", Boolean(linkedinSettings.hidden));
+  if (hiddenBadge) hiddenBadge.hidden = !linkedinSettings.hidden;
 }
 document.querySelector("#login-form").addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -351,15 +387,40 @@ addForm.addEventListener("submit", (event) => {
   item.append(link); list.append(item); addDialog.close(); renderPreview();
 });
 document.querySelector("#save-changes").addEventListener("click", () => {
-  try { localStorage.setItem(STORAGE_KEY, grid.innerHTML); status.textContent = "Saved in this browser. Download the updated index.html to publish these changes for everyone."; }
+  try { localStorage.setItem(STORAGE_KEY, grid.innerHTML); localStorage.setItem(LINKEDIN_STORAGE_KEY, JSON.stringify(linkedinSettings)); status.textContent = "Saved in this browser. Download the updated index.html to publish these changes for everyone."; }
   catch { status.textContent = "Could not save in this browser. Download the updated index.html instead."; }
 });
 document.querySelector("#download-page").addEventListener("click", () => {
   sourceDocument.querySelector(".resource-grid").innerHTML = grid.innerHTML;
+  applyLinkedInSettings(sourceDocument);
   const blob = new Blob([`<!doctype html>\n${sourceDocument.documentElement.outerHTML}`], { type: "text/html;charset=utf-8" });
   const url = URL.createObjectURL(blob); const link = document.createElement("a"); link.href = url; link.download = "index.html"; link.click(); URL.revokeObjectURL(url);
   localStorage.removeItem(STORAGE_KEY);
   status.textContent = "Downloaded index.html. Upload it to GitHub and commit the change to publish it.";
+});
+const linkedinDialog = document.querySelector("#linkedin-banners-dialog");
+const linkedinForm = document.querySelector("#linkedin-banners-form");
+document.querySelector("#manage-linkedin-banners").addEventListener("click", () => {
+  document.querySelector("#linkedin-banners-url").value = linkedinSettings.url;
+  document.querySelector("#linkedin-banners-hidden").checked = Boolean(linkedinSettings.hidden);
+  linkedinDialog.showModal();
+});
+document.querySelector("#admin-linkedin-banners-preview").addEventListener("click", (event) => {
+  if (!linkedinSettings.url || linkedinSettings.hidden) event.preventDefault();
+});
+document.querySelectorAll("[data-close-linkedin]").forEach((button) => button.addEventListener("click", () => linkedinDialog.close()));
+linkedinDialog.addEventListener("click", (event) => { if (event.target === linkedinDialog) linkedinDialog.close(); });
+linkedinForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  linkedinSettings = {
+    url: document.querySelector("#linkedin-banners-url").value.trim(),
+    hidden: document.querySelector("#linkedin-banners-hidden").checked,
+    updatedAt: Date.now()
+  };
+  applyLinkedInSettings(sourceDocument);
+  try { localStorage.setItem(LINKEDIN_STORAGE_KEY, JSON.stringify(linkedinSettings)); } catch { /* Download still publishes settings. */ }
+  linkedinDialog.close();
+  status.textContent = "LinkedIn Banners button updated. Use Download updated index.html to publish it.";
 });
 search.addEventListener("input", () => { const preview = previewHost.querySelector(".resource-grid"); if (preview) filterPreview(preview); });
 document.querySelector("#logout").addEventListener("click", () => { editor.hidden = true; loginPanel.hidden = false; document.querySelector("#password").value = ""; });

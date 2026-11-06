@@ -142,3 +142,19 @@
 .admin-agenda .agenda-badge.badge-hidden{background-color:#eaf3ff!important;border-color:#bad3f5!important;color:#24508c!important}
 
 .admin-agenda .agenda-badge.badge-updated{border-color:#bfcef5;background:#edf2ff;color:#3d55a5}
+
+#linkedin-banners-dialog{width:min(540px,calc(100vw - 30px));max-width:540px;max-height:calc(100dvh - 30px);margin:auto;overflow:auto;padding:0;border:1px solid rgba(255,255,255,.92);border-radius:20px;background:rgba(249,251,255,.97);color:var(--text,#10182e);box-shadow:0 28px 90px rgba(22,36,72,.28);backdrop-filter:blur(26px)}
+#linkedin-banners-dialog::backdrop{background:rgba(18,27,50,.48);backdrop-filter:blur(5px)}
+#linkedin-banners-form{display:grid;gap:15px;padding:clamp(20px,4vw,32px)}
+#linkedin-banners-form>label:not(.hide-control){display:grid;gap:6px;color:var(--text-soft,#34435d);font-size:12px;font-weight:750}
+#linkedin-banners-form input[type=url]{width:100%;min-width:0;min-height:44px;padding:9px 12px;border:1px solid rgba(92,112,173,.23);border-radius:10px;background:rgba(255,255,255,.92);color:var(--text,#10182e);font:inherit;font-size:13px}
+#linkedin-banners-form input[type=url]:focus{outline:0;border-color:#6275df;box-shadow:0 0 0 4px rgba(80,103,232,.12)}
+
+.linkedin-admin-control{display:flex;flex:0 0 auto;align-items:center;gap:6px}
+.linkedin-admin-control .linkedin-banners-link{min-height:42px;padding:5px 10px}
+.linkedin-admin-control .linkedin-banners-link img{height:21px;max-width:84px}
+.linkedin-admin-control .linkedin-banners-link span{font-size:10px;padding:4px 6px}
+.linkedin-admin-control .linkedin-banners-link.is-hidden{opacity:.58;filter:grayscale(.25)}
+.linkedin-admin-control .agenda-badge[hidden]{display:none!important}
+.linkedin-admin-control .agenda-badge{margin:0}
+@media(max-width:700px){.linkedin-admin-control{justify-content:flex-end;flex:1 1 auto}}

@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#f3f5f8">
   <title>GLC Agenda · Admin</title>
   <link rel="icon" type="image/png" href="images/notebook.png?v=1">
-  <link rel="stylesheet" href="style.css?v=66">
-  <link rel="stylesheet" href="admin.css?v=27">
-  <script src="admin.js?v=24" defer></script>
+  <link rel="stylesheet" href="style.css?v=68">
+  <link rel="stylesheet" href="admin.css?v=29">
+  <script src="admin.js?v=27" defer></script>
 </head>
 <body>
   <main class="admin-page">
@@ -24,6 +24,7 @@
     <section id="editor" hidden>
       <section class="admin-toolbar">
         <label class="admin-search">Search<input id="admin-search" type="search" placeholder="Search agendas and events"></label>
+        <div class="linkedin-admin-control"><a id="admin-linkedin-banners-preview" class="linkedin-banners-link" target="_blank" rel="noopener noreferrer" aria-label="Open LinkedIn Banners"><img src="images/LinkedIn%20logo.png" alt="LinkedIn"><span>Banners</span></a><span id="admin-linkedin-hidden-badge" class="agenda-badge badge-hidden" hidden>HIDDEN</span><button id="manage-linkedin-banners" class="secondary-button" type="button">Edit</button></div>
         <button id="add-entry" class="primary-button" type="button">＋ Add link</button>
         <button id="save-changes" class="secondary-button" type="button">Save changes here</button>
         <button id="download-page" class="secondary-button" type="button">Download updated index.html</button>
@@ -32,6 +33,12 @@
       <p id="admin-status" class="admin-status" role="status"></p>
       <section id="admin-agenda" aria-label="Editable agenda preview"></section>
     </section>
+    <dialog id="linkedin-banners-dialog"><form id="linkedin-banners-form">
+      <div class="dialog-heading"><div><p class="eyebrow">HEADER BUTTON</p><h2>LinkedIn Banners</h2></div><button class="icon-button" type="button" data-close-linkedin aria-label="Close">×</button></div>
+      <label>Destination URL<input id="linkedin-banners-url" type="url" placeholder="https://…"></label>
+      <label class="hide-control"><input id="linkedin-banners-hidden" type="checkbox"> Hide this button</label>
+      <div class="dialog-actions"><span class="action-spacer"></span><button class="secondary-button" type="button" data-close-linkedin>Cancel</button><button class="primary-button" type="submit">Save button</button></div>
+    </form></dialog>
     <dialog id="edit-dialog"><form id="edit-form">
       <div class="dialog-heading"><div><p class="eyebrow">EDIT AGENDA ITEM</p><h2 id="edit-dialog-title">Edit item</h2></div><button class="icon-button" type="button" data-close-edit aria-label="Close">×</button></div>
       <label>Name<input id="edit-name" required></label>

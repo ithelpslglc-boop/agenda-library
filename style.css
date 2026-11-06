@@ -881,3 +881,13 @@ body::before {
 .masterclass-card .masterclass-event-grid>li:has(a.is-cancelled)::after{display:none!important;content:none!important}
 
 .badge-updated{border-color:#bfcef5;background:#edf2ff;color:#3d55a5}
+
+/* LinkedIn Banners shortcut sits immediately before the search field. */
+.linkedin-banners-link{display:inline-flex;flex:0 0 auto;min-height:46px;align-items:center;gap:9px;padding:6px 14px;border:1px solid rgba(10,102,194,.22);border-radius:12px;background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(237,245,255,.86));box-shadow:0 8px 24px rgba(39,57,105,.08),inset 0 1px rgba(255,255,255,.9);color:#174b7b;text-decoration:none;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+.linkedin-banners-link[hidden]{display:none!important}
+.linkedin-banners-link:hover{transform:translateY(-1px);border-color:rgba(10,102,194,.48);box-shadow:0 12px 26px rgba(10,102,194,.14)}
+.linkedin-banners-link img{display:block;width:auto;height:24px;max-width:100px;object-fit:contain}
+.linkedin-banners-link span{padding:5px 8px;border-radius:7px;background:rgba(10,102,194,.09);color:#174b7b;font-size:11px;font-weight:800;letter-spacing:.025em}
+@media(max-width:700px){.linkedin-banners-link{min-height:40px;padding:5px 10px}.linkedin-banners-link img{height:21px;max-width:84px}.linkedin-banners-link span{font-size:10px;padding:4px 6px}}
+.linkedin-banners-link[aria-disabled="true"]{cursor:default}
+.linkedin-banners-link[aria-disabled="true"]:hover{transform:none;border-color:rgba(10,102,194,.22);box-shadow:0 8px 24px rgba(39,57,105,.08),inset 0 1px rgba(255,255,255,.9)}
