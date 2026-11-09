@@ -354,7 +354,7 @@ document.querySelector("#login-form").addEventListener("submit", async (event) =
   try { await loadData(); } catch (error) { loginMessage.textContent = error.message; }
 });
 function masterclassRootList() {
-  return document.querySelector("#masterclasses-title")?.closest(".resource-card")?.querySelector(":scope > .subfolder-list");
+  return grid?.querySelector("#masterclasses-title")?.closest(".resource-card")?.querySelector(":scope > .subfolder-list");
 }
 function masterclassYears() {
   const root = masterclassRootList();
