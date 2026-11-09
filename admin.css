@@ -158,3 +158,10 @@
 .linkedin-admin-control .agenda-badge[hidden]{display:none!important}
 .linkedin-admin-control .agenda-badge{margin:0}
 @media(max-width:700px){.linkedin-admin-control{justify-content:flex-end;flex:1 1 auto}}
+
+#entry-main-fields{display:grid;gap:15px}
+#entry-main-fields[hidden],.new-location-fields[hidden]{display:none!important}
+#entry-main-fields>label,.new-location-fields>label{display:grid;gap:6px;color:var(--text-soft,#34435d);font-size:12px;font-weight:750}
+.new-location-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:12px;border:1px solid rgba(92,112,173,.16);border-radius:12px;background:rgba(255,255,255,.5)}
+#entry-form input:focus,#entry-form select:focus{outline:0;border-color:#6275df;box-shadow:0 0 0 4px rgba(80,103,232,.12)}
+@media(max-width:700px){.new-location-fields{grid-template-columns:minmax(0,1fr)}}

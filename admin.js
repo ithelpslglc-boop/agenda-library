@@ -353,7 +353,113 @@ document.querySelector("#login-form").addEventListener("submit", async (event) =
   if (document.querySelector("#username").value !== USERNAME || document.querySelector("#password").value !== PASSWORD) { loginMessage.textContent = "Username or password is incorrect."; return; }
   try { await loadData(); } catch (error) { loginMessage.textContent = error.message; }
 });
-function openAddDialog() {
+function masterclassRootList() {
+  return document.querySelector("#masterclasses-title")?.closest(".resource-card")?.querySelector(":scope > .subfolder-list");
+}
+function masterclassYears() {
+  const root = masterclassRootList();
+  return [...(root?.children || [])].filter((item) => /^\d{4}$/.test(labelOf(item.querySelector(":scope > a"))))
+    .sort((a, b) => Number(labelOf(b.querySelector(":scope > a"))) - Number(labelOf(a.querySelector(":scope > a"))));
+}
+function yearItemFor(name) {
+  return masterclassYears().find((item) => labelOf(item.querySelector(":scope > a")) === name);
+}
+function monthsInYear(yearItem) {
+  const list = [...(yearItem?.children || [])].find((child) => child.tagName === "UL");
+  return [...(list?.children || [])].filter((item) => MONTH_NAMES.includes(labelOf(item.querySelector(":scope > a"))))
+    .sort((a, b) => MONTH_NAMES.indexOf(labelOf(b.querySelector(":scope > a"))) - MONTH_NAMES.indexOf(labelOf(a.querySelector(":scope > a"))));
+}
+function appendFolder(list, name, url, childListClass) {
+  const item = document.createElement("li");
+  const link = document.createElement("a");
+  link.textContent = name.trim(); link.href = url.trim(); link.target = "_blank"; link.rel = "noopener noreferrer";
+  item.append(link);
+  if (childListClass) { const childList = document.createElement("ul"); childList.className = childListClass; item.append(childList); }
+  list.append(item);
+  return item;
+}
+function createMasterclassYear(name, url) {
+  const root = masterclassRootList();
+  if (!root) throw new Error("Cannot find the Masterclasses section.");
+  if (!/^\d{4}$/.test(name.trim()) || yearItemFor(name.trim())) throw new Error("Enter a new four-digit year that is not already listed.");
+  return appendFolder(root, name, url, "nested-folder-list");
+}
+function createMasterclassMonth(yearItem, name, url) {
+  if (!MONTH_NAMES.includes(name.trim()) || monthsInYear(yearItem).some((item) => labelOf(item.querySelector(":scope > a")) === name.trim())) throw new Error("Choose a month that is not already listed for this year.");
+  let list = [...yearItem.children].find((child) => child.tagName === "UL");
+  if (!list) { list = document.createElement("ul"); list.className = "nested-folder-list"; yearItem.append(list); }
+  return appendFolder(list, name, url, "nested-folder-list");
+}
+function refreshAddYearChoices(selected = "") {
+  const select = document.querySelector("#entry-year");
+  select.replaceChildren(new Option("Choose year…", ""));
+  for (const item of masterclassYears()) {
+    const name = labelOf(item.querySelector(":scope > a"));
+    select.add(new Option(name, name));
+  }
+  select.add(new Option("＋ Add a new year…", "__new_year__"));
+  if (selected && [...select.options].some((option) => option.value === selected)) select.value = selected;
+  else if (masterclassYears().length) select.selectedIndex = 1;
+  else select.value = "__new_year__";
+  refreshAddMonthChoices();
+}
+function refreshAddMonthChoices() {
+  const select = document.querySelector("#entry-month");
+  const yearSelect = document.querySelector("#entry-year");
+  const addingMonth = document.querySelector("#entry-type").value === "month";
+  const months = monthsInYear(yearItemFor(yearSelect.value));
+  const existingNames = new Set(months.map((item) => labelOf(item.querySelector(":scope > a"))));
+  const availableNames = MONTH_NAMES.filter((name) => !existingNames.has(name));
+  const newMonthName = document.querySelector("#entry-new-month-name");
+  const oldMonthName = newMonthName.value;
+  newMonthName.replaceChildren(...availableNames.map((name) => new Option(name, name)));
+  if (availableNames.includes(oldMonthName)) newMonthName.value = oldMonthName;
+  select.replaceChildren(new Option(addingMonth ? "Months in selected year" : (months.length ? "Choose month…" : "Add the first month…"), ""));
+  for (const item of months) {
+    const name = labelOf(item.querySelector(":scope > a"));
+    const option = new Option(addingMonth ? `${name} (already added)` : name, addingMonth ? `existing:${name}` : name);
+    option.disabled = addingMonth;
+    select.add(option);
+  }
+  const addMonthOption = new Option("＋ Add a new month…", "__new_month__");
+  addMonthOption.disabled = availableNames.length === 0;
+  select.add(addMonthOption);
+  if (yearSelect.value === "__new_year__" || addingMonth) select.value = "__new_month__";
+  else if (months.length) select.selectedIndex = 1;
+  updateAddFormVisibility();
+}
+function setRequired(selector, required) { const element = document.querySelector(selector); if (element) element.required = required; }
+function updateAddFormVisibility() {
+  const type = document.querySelector("#entry-type").value;
+  const year = document.querySelector("#entry-year").value;
+  const month = document.querySelector("#entry-month").value;
+  const other = type === "other";
+  const yearPicker = type === "event" || type === "month";
+  const monthPicker = type === "event" || type === "month";
+  const newYear = yearPicker && year === "__new_year__";
+  const newMonth = type === "event" && (month === "__new_month__" || newYear);
+  document.querySelector("#entry-parent-row").hidden = !other;
+  document.querySelector("#entry-year-row").hidden = !yearPicker;
+  document.querySelector("#entry-month-row").hidden = !monthPicker;
+  document.querySelector("#entry-new-year-fields").hidden = !newYear;
+  document.querySelector("#entry-new-month-fields").hidden = !newMonth;
+  document.querySelector("#entry-parent").required = other;
+  document.querySelector("#entry-year").required = yearPicker;
+  document.querySelector("#entry-month").required = monthPicker;
+  document.querySelector("#entry-new-month-name").required = newMonth;
+  setRequired("#entry-new-year-name", newYear); setRequired("#entry-new-year-url", newYear);
+  setRequired("#entry-new-month-url", newMonth);
+  document.querySelector("#entry-main-fields").hidden = type === "month" && month !== "__new_month__";
+  const nameLabel = document.querySelector("#entry-name-label");
+  const urlLabel = document.querySelector("#entry-url-label");
+  const nameTitle = type === "year" ? "Year" : type === "month" ? "Month name" : type === "event" ? "Event name" : "Name";
+  const urlTitle = type === "year" ? "Year folder URL" : type === "month" ? "Month folder URL" : "Google Drive URL";
+  nameLabel.firstChild.textContent = nameTitle;
+  urlLabel.firstChild.textContent = urlTitle;
+  document.querySelector("#entry-name").required = true;
+  document.querySelector("#entry-url").required = true;
+}
+function populateOtherParents() {
   const select = document.querySelector("#entry-parent");
   select.replaceChildren();
   [...grid.querySelectorAll("a")].forEach((anchor, index) => {
@@ -362,10 +468,21 @@ function openAddDialog() {
     option.textContent = isHeading ? `${labelOf(anchor)} › add folder` : `${context(anchor)} › ${labelOf(anchor)}`;
     select.append(option);
   });
+}
+function openAddDialog() {
   addForm.reset();
+  populateOtherParents();
+  const monthSelect = document.querySelector("#entry-new-month-name");
+  monthSelect.replaceChildren(...MONTH_NAMES.map((month) => new Option(month, month)));
+  document.querySelector("#entry-type").value = "event";
+  refreshAddYearChoices();
+  updateAddFormVisibility();
   addDialog.showModal();
 }
 document.querySelector("#add-entry").addEventListener("click", openAddDialog);
+document.querySelector("#entry-type").addEventListener("change", refreshAddMonthChoices);
+document.querySelector("#entry-year").addEventListener("change", refreshAddMonthChoices);
+document.querySelector("#entry-month").addEventListener("change", updateAddFormVisibility);
 addDialog.addEventListener("click", (event) => { if (event.target === addDialog) addDialog.close(); });
 document.querySelectorAll("[data-close-edit]").forEach((button) => button.addEventListener("click", () => editDialog.close()));
 editDialog.addEventListener("click", (event) => { if (event.target === editDialog) editDialog.close(); });
@@ -374,17 +491,62 @@ document.querySelector("#delete-entry").addEventListener("click", removeCurrent)
 document.querySelector("#edit-link-mode").addEventListener("change", (event) => { document.querySelector("#edit-edition-urls").hidden = event.target.value !== "editions"; });
 addForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  const parent = [...grid.querySelectorAll("a")][Number(document.querySelector("#entry-parent").value)];
-  const li = parent?.closest("li"); const card = parent?.closest(".resource-card");
-  let list = li?.querySelector(":scope > ul") || card?.querySelector(":scope > ul");
-  if (!list && parent) { list = document.createElement("ul"); list.className = li ? "nested-folder-list" : "subfolder-list"; (li || card).append(list); }
+  const type = document.querySelector("#entry-type").value;
+  const isDriveUrl = (value) => /^https:\/\/drive\.google\.com\//i.test(value.trim());
+  const name = document.querySelector("#entry-name").value.trim();
   const url = document.querySelector("#entry-url").value.trim();
-  if (!list || !/^https:\/\/drive\.google\.com\//i.test(url)) return;
-  const item = document.createElement("li"); const link = document.createElement("a");
-  link.textContent = document.querySelector("#entry-name").value.trim(); link.href = url; link.target = "_blank"; link.rel = "noopener noreferrer";
-  const badge = addForm.querySelector('input[name="add-badge"]:checked')?.value || ""; if (badge) link.dataset.badge = badge;
-  if (EXPIRING_BADGES.has(badge.toLowerCase())) link.dataset.badgeExpiresAt = String(Date.now() + BADGE_EXPIRY_MS);
-  item.append(link); list.append(item); addDialog.close(); renderPreview();
+  const selectedYear = document.querySelector("#entry-year").value;
+  const addsYear = selectedYear === "__new_year__";
+  const newYearName = document.querySelector("#entry-new-year-name").value.trim();
+  const newYearUrl = document.querySelector("#entry-new-year-url").value.trim();
+  if (addsYear && (!/^\d{4}$/.test(newYearName) || yearItemFor(newYearName) || !isDriveUrl(newYearUrl))) return;
+  let createdLink;
+  if (type === "year") {
+    if (!/^\d{4}$/.test(name) || yearItemFor(name) || !isDriveUrl(url)) return;
+    createdLink = createMasterclassYear(name, url).querySelector(":scope > a");
+  } else if (type === "month") {
+    const existingYear = addsYear ? null : yearItemFor(selectedYear);
+    const duplicateMonth = existingYear && monthsInYear(existingYear).some((item) => labelOf(item.querySelector(":scope > a")) === name);
+    if ((!addsYear && !existingYear) || document.querySelector("#entry-month").value !== "__new_month__" || !MONTH_NAMES.includes(name) || duplicateMonth || !isDriveUrl(url)) return;
+    const yearItem = addsYear ? createMasterclassYear(newYearName, newYearUrl) : existingYear;
+    createdLink = createMasterclassMonth(yearItem, name, url).querySelector(":scope > a");
+  } else if (type === "event") {
+    const existingYear = addsYear ? null : yearItemFor(selectedYear);
+    const newMonth = document.querySelector("#entry-month").value === "__new_month__";
+    const newMonthName = document.querySelector("#entry-new-month-name").value;
+    const newMonthUrl = document.querySelector("#entry-new-month-url").value.trim();
+    const duplicateMonth = existingYear && monthsInYear(existingYear).some((item) => labelOf(item.querySelector(":scope > a")) === newMonthName);
+    if ((!addsYear && !existingYear) || !name || !isDriveUrl(url) ||
+      (newMonth && (!MONTH_NAMES.includes(newMonthName) || duplicateMonth || !isDriveUrl(newMonthUrl)))) return;
+    const yearItem = addsYear ? createMasterclassYear(newYearName, newYearUrl) : existingYear;
+    let monthItem = newMonth
+      ? createMasterclassMonth(yearItem, newMonthName, newMonthUrl)
+      : monthsInYear(yearItem).find((item) => labelOf(item.querySelector(":scope > a")) === document.querySelector("#entry-month").value);
+    if (!monthItem) return;
+    const monthList = [...monthItem.children].find((child) => child.tagName === "UL");
+    if (!monthList) return;
+    const item = document.createElement("li"); const link = document.createElement("a");
+    link.textContent = name; link.href = url; link.target = "_blank"; link.rel = "noopener noreferrer";
+    const badge = addForm.querySelector('input[name="add-badge"]:checked')?.value || "";
+    if (badge) link.dataset.badge = badge;
+    if (EXPIRING_BADGES.has(badge.toLowerCase())) link.dataset.badgeExpiresAt = String(Date.now() + BADGE_EXPIRY_MS);
+    item.append(link); monthList.append(item); createdLink = link;
+  } else {
+    const parent = [...grid.querySelectorAll("a")][Number(document.querySelector("#entry-parent").value)];
+    const li = parent?.closest("li"); const card = parent?.closest(".resource-card");
+    let list = li?.querySelector(":scope > ul") || card?.querySelector(":scope > ul");
+    if (!list && parent) { list = document.createElement("ul"); list.className = li ? "nested-folder-list" : "subfolder-list"; (li || card).append(list); }
+    if (!list || !name || !isDriveUrl(url)) return;
+    const item = document.createElement("li"); const link = document.createElement("a");
+    link.textContent = name; link.href = url; link.target = "_blank"; link.rel = "noopener noreferrer";
+    item.append(link); list.append(item); createdLink = link;
+  }
+  if (type !== "event" && createdLink) {
+    const badge = addForm.querySelector('input[name="add-badge"]:checked')?.value || "";
+    if (badge) createdLink.dataset.badge = badge;
+    if (EXPIRING_BADGES.has(badge.toLowerCase())) createdLink.dataset.badgeExpiresAt = String(Date.now() + BADGE_EXPIRY_MS);
+  }
+  addDialog.close(); renderPreview();
 });
 document.querySelector("#save-changes").addEventListener("click", () => {
   try { localStorage.setItem(STORAGE_KEY, grid.innerHTML); localStorage.setItem(LINKEDIN_STORAGE_KEY, JSON.stringify(linkedinSettings)); status.textContent = "Saved in this browser. Download the updated index.html to publish these changes for everyone."; }

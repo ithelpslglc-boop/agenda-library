@@ -7,8 +7,8 @@
   <title>GLC Agenda · Admin</title>
   <link rel="icon" type="image/png" href="images/notebook.png?v=1">
   <link rel="stylesheet" href="style.css?v=68">
-  <link rel="stylesheet" href="admin.css?v=29">
-  <script src="admin.js?v=27" defer></script>
+  <link rel="stylesheet" href="admin.css?v=31">
+  <script src="admin.js?v=29" defer></script>
 </head>
 <body>
   <main class="admin-page">
@@ -51,9 +51,13 @@
     </form></dialog>
     <dialog id="entry-dialog"><form method="dialog" id="entry-form">
       <div class="dialog-heading"><h2>Add a link</h2><button class="icon-button" value="cancel" aria-label="Close">×</button></div>
-      <label>Place under<select id="entry-parent" required></select></label>
-      <label>Name<input id="entry-name" required></label>
-      <label>Google Drive URL<input id="entry-url" type="url" placeholder="https://drive.google.com/open?id=…" required></label>
+      <label>What are you adding?<select id="entry-type"><option value="event">Masterclass / event</option><option value="month">Masterclass month</option><option value="year">Masterclass year</option><option value="other">Other folder or link</option></select></label>
+      <label id="entry-parent-row" hidden>Place under<select id="entry-parent"></select></label>
+      <label id="entry-year-row" hidden>Year<select id="entry-year"></select></label>
+      <div id="entry-new-year-fields" class="new-location-fields" hidden><label>New year<input id="entry-new-year-name" inputmode="numeric" placeholder="2028"></label><label>Year folder URL<input id="entry-new-year-url" type="url" placeholder="https://drive.google.com/…"></label></div>
+      <label id="entry-month-row" hidden>Month<select id="entry-month"></select></label>
+      <div id="entry-new-month-fields" class="new-location-fields" hidden><label>New month<select id="entry-new-month-name"></select></label><label>Month folder URL<input id="entry-new-month-url" type="url" placeholder="https://drive.google.com/…"></label></div>
+      <div id="entry-main-fields"><label id="entry-name-label">Event name<input id="entry-name" required></label><label id="entry-url-label">Google Drive URL<input id="entry-url" type="url" placeholder="https://drive.google.com/open?id=…" required></label></div>
       <fieldset class="badge-options"><legend>Badge</legend><label><input type="radio" name="add-badge" value="" checked> None</label><label><input type="radio" name="add-badge" value="NEW"> NEW</label><label><input type="radio" name="add-badge" value="UPDATED"> UPDATED</label><label><input type="radio" name="add-badge" value="POSTPONED"> POSTPONED</label><label><input type="radio" name="add-badge" value="CANCELLED"> CANCELLED</label></fieldset>
       <div class="dialog-actions"><button class="secondary-button" value="cancel">Cancel</button><button class="primary-button" value="default">Add link</button></div>
     </form></dialog>
