@@ -2,6 +2,22 @@ const savedAgendaMarkup = (() => {
   try { return localStorage.getItem("glc-agenda-markup-v1"); } catch { return null; }
 })();
 const PAGE_REFRESH_INTERVAL_MS = 60 * 1000;
+const FRESH_LOAD_PARAM = "_glc_refresh";
+const SEARCH_RESTORE_KEY = "glc-search-on-refresh";
+const pageUrl = new URL(window.location.href);
+if (pageUrl.searchParams.has(FRESH_LOAD_PARAM)) {
+  pageUrl.searchParams.delete(FRESH_LOAD_PARAM);
+  window.history.replaceState(window.history.state, "", pageUrl);
+} else {
+  pageUrl.searchParams.set(FRESH_LOAD_PARAM, String(Date.now()));
+  window.location.replace(pageUrl);
+}
+function loadLatestPage() {
+  try { sessionStorage.setItem(SEARCH_RESTORE_KEY, searchInput.value); } catch { /* Refresh still works without session storage. */ }
+  const freshUrl = new URL(window.location.href);
+  freshUrl.searchParams.set(FRESH_LOAD_PARAM, String(Date.now()));
+  window.location.replace(freshUrl);
+}
 const EXPIRING_BADGES = new Set(["new", "updated"]);
 const linkedinBannersLink = document.querySelector("#linkedin-banners-link");
 if (linkedinBannersLink) {
@@ -40,7 +56,12 @@ for (const anchor of document.querySelectorAll(".resource-grid a")) {
     badge.textContent = anchor.dataset.badge;
   } else badge?.remove();
   anchor.classList.toggle("is-cancelled", anchor.dataset.badge?.toLowerCase() === "cancelled");
-}const searchInput = document.querySelector("#folder-search");
+}
+const searchInput = document.querySelector("#folder-search");
+try {
+  const pendingSearch = sessionStorage.getItem(SEARCH_RESTORE_KEY);
+  if (pendingSearch) { searchInput.value = pendingSearch; sessionStorage.removeItem(SEARCH_RESTORE_KEY); }
+} catch { /* Search still works without session storage. */ }
 const status = document.querySelector("#search-status");
 const cards = [...document.querySelectorAll(".resource-card")];
 const monthOrder = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
@@ -213,5 +234,17 @@ applySearch();
 
 // Periodically reload the published static page so visitors pick up new deployments.
 window.setInterval(() => {
-  if (!document.hidden && document.activeElement !== searchInput) window.location.reload();
+  if (!document.hidden) loadLatestPage();
 }, PAGE_REFRESH_INTERVAL_MS);
+
+// Browsers may restore a previously visited page from the back/forward cache.
+// Reload that restored document so a return visit picks up the latest published page.
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted && !document.hidden) loadLatestPage();
+});
+let wasDocumentHidden = document.hidden;
+document.addEventListener("visibilitychange", () => {
+  const becameVisible = wasDocumentHidden && !document.hidden;
+  wasDocumentHidden = document.hidden;
+  if (becameVisible) loadLatestPage();
+});

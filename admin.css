@@ -165,3 +165,6 @@
 .new-location-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:12px;border:1px solid rgba(92,112,173,.16);border-radius:12px;background:rgba(255,255,255,.5)}
 #entry-form input:focus,#entry-form select:focus{outline:0;border-color:#6275df;box-shadow:0 0 0 4px rgba(80,103,232,.12)}
 @media(max-width:700px){.new-location-fields{grid-template-columns:minmax(0,1fr)}}
+
+/* Respect hidden form steps when switching between masterclass and other-category modes. */
+#entry-form [hidden]{display:none!important}

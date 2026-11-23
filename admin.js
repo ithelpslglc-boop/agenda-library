@@ -499,7 +499,11 @@ addForm.addEventListener("submit", (event) => {
   const addsYear = selectedYear === "__new_year__";
   const newYearName = document.querySelector("#entry-new-year-name").value.trim();
   const newYearUrl = document.querySelector("#entry-new-year-url").value.trim();
-  if (addsYear && (!/^\d{4}$/.test(newYearName) || yearItemFor(newYearName) || !isDriveUrl(newYearUrl))) return;
+  if ((type === "event" || type === "month") && addsYear &&
+      (!/^\d{4}$/.test(newYearName) || yearItemFor(newYearName) || !isDriveUrl(newYearUrl))) {
+    status.textContent = "Enter a new four-digit year and its Google Drive folder URL.";
+    return;
+  }
   let createdLink;
   if (type === "year") {
     if (!/^\d{4}$/.test(name) || yearItemFor(name) || !isDriveUrl(url)) return;
@@ -536,7 +540,10 @@ addForm.addEventListener("submit", (event) => {
     const li = parent?.closest("li"); const card = parent?.closest(".resource-card");
     let list = li?.querySelector(":scope > ul") || card?.querySelector(":scope > ul");
     if (!list && parent) { list = document.createElement("ul"); list.className = li ? "nested-folder-list" : "subfolder-list"; (li || card).append(list); }
-    if (!list || !name || !isDriveUrl(url)) return;
+    if (!parent || !list || !name || !isDriveUrl(url)) {
+      status.textContent = "Choose a category or folder, and enter a name and Google Drive URL.";
+      return;
+    }
     const item = document.createElement("li"); const link = document.createElement("a");
     link.textContent = name; link.href = url; link.target = "_blank"; link.rel = "noopener noreferrer";
     item.append(link); list.append(item); createdLink = link;
@@ -546,7 +553,9 @@ addForm.addEventListener("submit", (event) => {
     if (badge) createdLink.dataset.badge = badge;
     if (EXPIRING_BADGES.has(badge.toLowerCase())) createdLink.dataset.badgeExpiresAt = String(Date.now() + BADGE_EXPIRY_MS);
   }
+  search.value = "";
   addDialog.close(); renderPreview();
+  status.textContent = `Added “${name}”. It is visible in the admin preview; use Save changes here or Download updated index.html to publish it.`;
 });
 document.querySelector("#save-changes").addEventListener("click", () => {
   try { localStorage.setItem(STORAGE_KEY, grid.innerHTML); localStorage.setItem(LINKEDIN_STORAGE_KEY, JSON.stringify(linkedinSettings)); status.textContent = "Saved in this browser. Download the updated index.html to publish these changes for everyone."; }
